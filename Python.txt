@@ -1,0 +1,60 @@
+import random
+
+def hangman():
+    # List of words for the game
+    words = ['python', 'javascript', 'hangman', 'programming', 'developer', 'computer', 'challenge']
+    
+    # Randomly select a word
+    word = random.choice(words)
+    word_length = len(word)
+    
+    # Create a list of underscores to represent the word
+    guessed_word = ['_'] * word_length
+    
+    # Set the maximum number of incorrect guesses
+    max_incorrect_guesses = 6
+    incorrect_guesses = 0
+    guessed_letters = []
+    
+    print("Welcome to Hangman!")
+    print("The word has", word_length, "letters.")
+    
+    while incorrect_guesses < max_incorrect_guesses:
+        print("\nCurrent word:", ' '.join(guessed_word))
+        print("Incorrect guesses remaining:", max_incorrect_guesses - incorrect_guesses)
+        print("Guessed letters:", ', '.join(guessed_letters))
+        
+        # Player input
+        guess = input("Guess a letter: ").lower()
+        
+        # Validate the input
+        if len(guess) != 1 or not guess.isalpha():
+            print("Please enter a single valid letter.")
+            continue
+        
+        if guess in guessed_letters:
+            print("You've already guessed that letter.")
+            continue
+        
+        guessed_letters.append(guess)
+        
+        # Check if the guessed letter is in the word
+        if guess in word:
+            print("Good guess!")
+            # Update the guessed word with the correct letter
+            for i in range(word_length):
+                if word[i] == guess:
+                    guessed_word[i] = guess
+        else:
+            incorrect_guesses += 1
+            print(f"Oops! {guess} is not in the word.")
+        
+        # Check if the player has guessed the entire word
+        if '_' not in guessed_word:
+            print("\nCongratulations! You've guessed the word:", word)
+            break
+    else:
+        print("\nSorry, you've run out of guesses. The word was:", word)
+
+# Start the game
+hangman()
